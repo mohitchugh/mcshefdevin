@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useOktaAuth } from '@okta/okta-react'
+import { useAuth0 } from '@auth0/auth0-react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -47,7 +47,7 @@ interface Order {
 }
 
 export default function ChefPortal() {
-  const { oktaAuth, authState } = useOktaAuth()
+  const { user: auth0User, isAuthenticated, logout } = useAuth0()
   const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
   const [chef, setChef] = useState<Chef | null>(null)
@@ -68,10 +68,10 @@ export default function ChefPortal() {
   })
 
   useEffect(() => {
-    if (authState?.isAuthenticated) {
+    if (isAuthenticated && auth0User) {
       loadUserInfo()
     }
-  }, [authState])
+  }, [isAuthenticated, auth0User])
 
   useEffect(() => {
     if (user) {
@@ -89,11 +89,10 @@ export default function ChefPortal() {
 
   const loadUserInfo = async () => {
     try {
-      const userInfo = await oktaAuth.getUser()
       const userData = {
-        id: userInfo.sub || '',
-        email: userInfo.email || '',
-        name: userInfo.name || '',
+        id: auth0User?.sub || '',
+        email: auth0User?.email || '',
+        name: auth0User?.name || '',
         role: 'chef'
       }
       
@@ -232,11 +231,11 @@ export default function ChefPortal() {
     }
   }
 
-  const handleLogout = async () => {
-    await oktaAuth.signOut()
+  const handleLogout = () => {
+    logout({ logoutParams: { returnTo: window.location.origin } })
   }
 
-  if (!authState?.isAuthenticated) {
+  if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center">
         <Card>

@@ -1,6 +1,6 @@
 # McShef - Home-Cooked Meals Marketplace
 
-McShef is a full-stack web application that connects home chefs with customers looking for delicious, home-cooked meals. The platform features dual portals for customers and chefs, with Okta authentication and a 60/40 revenue split model.
+McShef is a full-stack web application that connects home chefs with customers looking for delicious, home-cooked meals. The platform features dual portals for customers and chefs, with Auth0 authentication and a 60/40 revenue split model.
 
 ## Features
 
@@ -9,7 +9,7 @@ McShef is a full-stack web application that connects home chefs with customers l
 - View meal details including chef information, pricing, and availability
 - Place orders for meals
 - Track order history
-- Secure authentication via Okta
+- Secure authentication via Auth0
 
 ### Chef Portal
 - Create and manage meal listings
@@ -19,7 +19,7 @@ McShef is a full-stack web application that connects home chefs with customers l
 - Upload optional meal images
 
 ### Platform Features
-- Okta authentication for secure access
+- Auth0 authentication for secure access
 - In-memory database (proof of concept)
 - RESTful API backend
 - Responsive UI with Tailwind CSS
@@ -39,7 +39,7 @@ McShef is a full-stack web application that connects home chefs with customers l
 - Vite for build tooling
 - Tailwind CSS for styling
 - shadcn/ui component library
-- Okta React SDK for authentication
+- Auth0 React SDK for authentication
 - React Router for navigation
 
 ## Project Structure
@@ -55,7 +55,7 @@ mcshefdevin/
 │   ├── src/
 │   │   ├── pages/
 │   │   │   ├── Home.tsx           # Landing page
-│   │   │   ├── Login.tsx          # Okta login page
+│   │   │   ├── Login.tsx          # Auth0 login page
 │   │   │   ├── CustomerPortal.tsx # Customer interface
 │   │   │   └── ChefPortal.tsx     # Chef interface
 │   │   ├── components/ui/         # shadcn/ui components
@@ -72,7 +72,7 @@ mcshefdevin/
 - Python 3.12+
 - Node.js 18+
 - Poetry (Python package manager)
-- Okta account for authentication
+- Auth0 account for authentication
 
 ### Backend Setup
 
@@ -108,8 +108,8 @@ npm install
 3. Configure environment variables in `.env`:
 ```env
 VITE_API_URL=http://localhost:8000
-VITE_OKTA_DOMAIN=your-okta-domain.okta.com
-VITE_OKTA_CLIENT_ID=your-okta-client-id
+VITE_AUTH0_DOMAIN=your-auth0-domain.auth0.com
+VITE_AUTH0_CLIENT_ID=your-auth0-client-id
 ```
 
 4. Start the development server:
@@ -119,16 +119,17 @@ npm run dev
 
 The frontend will be available at `http://localhost:5173`
 
-## Okta Configuration
+## Auth0 Configuration
 
 To enable authentication, you need to:
 
-1. Create an Okta developer account at https://developer.okta.com
-2. Create a new application in Okta:
+1. Create an Auth0 account at https://auth0.com
+2. Create a new application in Auth0:
    - Application type: Single-Page Application (SPA)
-   - Sign-in redirect URIs: `http://localhost:5173/login/callback` (for local development)
-   - Sign-out redirect URIs: `http://localhost:5173`
-3. Copy your Okta domain and client ID to the frontend `.env` file
+   - Allowed Callback URLs: `http://localhost:5173` (for local development)
+   - Allowed Logout URLs: `http://localhost:5173`
+   - Allowed Web Origins: `http://localhost:5173`
+3. Copy your Auth0 domain and client ID to the frontend `.env` file
 
 ## API Endpoints
 
@@ -166,7 +167,7 @@ To enable authentication, you need to:
 ## Important Notes
 
 - **In-Memory Database**: This is a proof of concept. All data is stored in memory and will be lost when the backend server restarts.
-- **Authentication**: Okta credentials must be configured for the authentication to work properly.
+- **Authentication**: Auth0 credentials must be configured for the authentication to work properly.
 - **Production Deployment**: For production use, replace the in-memory database with a persistent database (PostgreSQL, MongoDB, etc.)
 
 ## Development

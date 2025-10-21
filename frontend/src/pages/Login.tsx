@@ -1,21 +1,21 @@
-import { useOktaAuth } from '@okta/okta-react'
+import { useAuth0 } from '@auth0/auth0-react'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function Login() {
-  const { oktaAuth, authState } = useOktaAuth()
+  const { loginWithRedirect, isAuthenticated } = useAuth0()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (authState?.isAuthenticated) {
+    if (isAuthenticated) {
       navigate('/')
     }
-  }, [authState, navigate])
+  }, [isAuthenticated, navigate])
 
   const handleLogin = async () => {
-    await oktaAuth.signInWithRedirect()
+    await loginWithRedirect()
   }
 
   return (
@@ -27,7 +27,7 @@ export default function Login() {
         </CardHeader>
         <CardContent>
           <Button className="w-full bg-orange-600 hover:bg-orange-700" onClick={handleLogin}>
-            Sign In with Okta
+            Sign In with Auth0
           </Button>
         </CardContent>
       </Card>
