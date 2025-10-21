@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { Security, SecureRoute, LoginCallback } from '@okta/okta-react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Security, LoginCallback } from '@okta/okta-react'
 import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js'
 import { useNavigate } from 'react-router-dom'
 import Home from './pages/Home'
